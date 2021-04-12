@@ -1,4 +1,5 @@
 # flutter_app_boost_new
+[![Dart](https://github.com/trungnam/f-boost-starter/actions/workflows/dart.yml/badge.svg)](https://github.com/trungnam/f-boost-starter/actions/workflows/dart.yml)
 
 A new Flutter application.
 
