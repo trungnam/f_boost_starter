@@ -1,0 +1,84 @@
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterRoot = localProperties.getProperty('flutter.sdk')
+if (flutterRoot == null) {
+    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+android {
+    compileSdkVersion 30
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId "vn.fritz.flutter_app_boost_new"
+        minSdkVersion 17
+        targetSdkVersion 30
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
+
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    // Because RxAndroid releases are few and far between, it is recommended you also
+    // explicitly depend on RxJava's latest version for bug fixes and new features.
+    // (see https://github.com/ReactiveX/RxJava/releases for latest 3.x.x version)
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.3'
+
+    implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-core:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-appcompat:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-drawerlayout:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-leanback:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-recyclerview:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-slidingpanelayout:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-swiperefreshlayout:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-viewpager:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-viewpager2:4.0.0'
+
+
+}

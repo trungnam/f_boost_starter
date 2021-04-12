@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.jakewharton.rxbinding4:rxbinding-viewpager:4.0.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/51a6ddaa555b07c2086d97630bc63b8d/jetified-rxbinding-viewpager-4.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/51a6ddaa555b07c2086d97630bc63b8d/jetified-rxbinding-viewpager-4.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/51a6ddaa555b07c2086d97630bc63b8d/jetified-rxbinding-viewpager-4.0.0/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jakewharton.rxbinding4/rxbinding-viewpager/4.0.0/1378784e84eb97706409dc99217712e025c38d6c/rxbinding-viewpager-4.0.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jakewharton.rxbinding4/rxbinding-viewpager/4.0.0/e30640c9ef1c574193e685f745ed3512cc22a5c5/rxbinding-viewpager-4.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
