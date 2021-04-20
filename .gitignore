@@ -19,3 +19,23 @@ doc/api/
 *.js_
 *.js.deps
 *.js.map
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea
+
+# Flutter/Dart/Pub related
+**/doc/api/
+.flutter-plugins
+.flutter-plugins-dependencies
+**/generated_plugin_registrant.dart
+
+.pub-cache/
+.pub/
+
+flutter_*.png
+linked_*.ds
+unlinked.ds
+unlinked_spec.ds
