@@ -1,56 +1,54 @@
+import 'dart:developer';
+
 import 'package:fish_redux/fish_redux.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_boost_new/guide/guide_action.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 
 import 'guide_state.dart';
 
 Widget buildView(GuideState state, Dispatch dispatch, ViewService viewService) {
-  return MyMenuApp();
+  return buildWidget(state, dispatch);
 
 }
 
-class MyMenuApp extends StatefulWidget {
-  @override
-  _MyMenuAppState createState() => _MyMenuAppState();
-}
-
-class _MyMenuAppState extends State<MyMenuApp> {
+Widget buildWidget(GuideState state, Dispatch dispatch) {
   GlobalKey<SliderMenuContainerState> _key =
   new GlobalKey<SliderMenuContainerState>();
-  covariant String title;
+  String title;
 
-  @override
-  void initState() {
-    title = "Home";
-    super.initState();
-  }
+  return MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: Scaffold(
+      body: SliderMenuContainer(
+          appBarColor: Colors.white,
+          key: _key,
+          sliderMenuOpenSize: 200,
+          title: Text(
+            "title",
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+          ),
+          sliderMenu: MenuWidget(
+            onItemClick: (title) {
+              _key.currentState.closeDrawer();
+              // setState(() {
+              //   this.title = title;
+              // });
+              dispatch(GuideActionCreator.onClick());
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: SliderMenuContainer(
-            appBarColor: Colors.white,
-            key: _key,
-            sliderMenuOpenSize: 200,
-            title: Text(
-              title,
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-            ),
-            sliderMenu: MenuWidget(
-              onItemClick: (title) {
-                _key.currentState.closeDrawer();
-                setState(() {
-                  this.title = title;
-                });
-              },
-            ),
-            sliderMain: MainWidget()),
-      ),
-    );
-  }
+            },
+          ),
+          sliderMain: MainWidget()),
+    ),
+  );
 }
+//
+// class MyMenuApp extends StatefulWidget {
+//   @override
+//   _MyMenuAppState createState() => _MyMenuAppState();
+// }
+
 
 class MainWidget extends StatefulWidget {
   @override
@@ -85,8 +83,11 @@ class _MainWidgetState extends State<MainWidget> {
           //   physics: BouncingScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           itemBuilder: (builder, index) {
-            return LimitedBox(
+            return GestureDetector(onTap: () {
+              log("mess11111age");
+            }, child: LimitedBox(
               maxHeight: 150,
+
               child: Container(
                 decoration: new BoxDecoration(
                     color: dataList[index].color,
@@ -97,6 +98,7 @@ class _MainWidgetState extends State<MainWidget> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+
                     Padding(
                       padding: const EdgeInsets.all(12),
                       child: Text(
@@ -120,7 +122,8 @@ class _MainWidgetState extends State<MainWidget> {
                   ],
                 ),
               ),
-            );
+            ));
+
           },
           separatorBuilder: (builder, index) {
             return Divider(

@@ -1,6 +1,7 @@
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart' hide Page;
 import 'package:flutter/cupertino.dart' hide Page;
+import 'package:flutter_app_boost_new/Count/count_page.dart';
 import 'package:flutter_app_boost_new/gobal/global_state.dart';
 import 'package:flutter_app_boost_new/gobal/global_store.dart';
 import 'package:flutter_app_boost_new/guide/guide_page.dart';
@@ -60,7 +61,7 @@ class RouteConfig {
     pages: <String, Page<Object, dynamic>>{
       ///将你的路由名称和页面映射在一起，比如：RouteConfig.homePage : HomePage(),
       RouteConfig.guidePage: GuidePage(),
-      // RouteConfig.countPage: CountPage(),
+      RouteConfig.countPage: CountPage(),
       // RouteConfig.firstPage: FirstPage(),
       // RouteConfig.secondPage: SecondPage(),
       // RouteConfig.listPage: ListPage(),
