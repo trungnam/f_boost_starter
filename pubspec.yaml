@@ -37,6 +37,11 @@ dependencies:
   fish_redux: ^0.3.7
   flutter_slider_drawer: ^2.0.0
 
+  dio: ^4.0.0
+  rxdart: ^0.26.0
+  logging: 0.11.4
+  sprintf: 4.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

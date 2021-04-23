@@ -1,9 +1,10 @@
+
 import 'dart:developer';
 
 import 'package:fish_redux/fish_redux.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_boost_new/guide/guide_action.dart';
+import 'package:flutter_app_boost_new/model/APIProvider.dart';
+import 'package:flutter_app_boost_new/utility/log/Log.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 
 import 'guide_state.dart';
@@ -17,6 +18,7 @@ Widget buildWidget(GuideState state, Dispatch dispatch) {
   GlobalKey<SliderMenuContainerState> _key =
   new GlobalKey<SliderMenuContainerState>();
   String title;
+  APIProvider apiProvider = APIProvider();
 
   return MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -30,12 +32,13 @@ Widget buildWidget(GuideState state, Dispatch dispatch) {
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
           ),
           sliderMenu: MenuWidget(
-            onItemClick: (title) {
+            onItemClick: (title) async {
               _key.currentState.closeDrawer();
               // setState(() {
               //   this.title = title;
               // });
-              dispatch(GuideActionCreator.onClick());
+              // dispatch(GuideActionCreator.onClick());
+              // Log.info('$a - Response  : ${a}');
 
             },
           ),
@@ -76,6 +79,8 @@ class _MainWidgetState extends State<MainWidget> {
 
   @override
   Widget build(BuildContext context) {
+    APIProvider apiProvider = APIProvider();
+
     return Container(
       margin: const EdgeInsets.all(20),
       child: ListView.separated(
@@ -85,6 +90,11 @@ class _MainWidgetState extends State<MainWidget> {
           itemBuilder: (builder, index) {
             return GestureDetector(onTap: () {
               log("mess11111age");
+              var a = apiProvider.getTopFreeApp();
+              print("$a");
+              // Log.info('$a - Response  : ${a}');
+              log("apiProvider ");
+
             }, child: LimitedBox(
               maxHeight: 150,
 
