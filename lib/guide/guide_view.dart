@@ -1,148 +1,198 @@
 
-import 'dart:developer';
 
 import 'package:fish_redux/fish_redux.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_boost_new/guide/guide_action.dart';
 import 'package:flutter_app_boost_new/model/APIProvider.dart';
-import 'package:flutter_app_boost_new/utility/log/Log.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'guide_state.dart';
 
 Widget buildView(GuideState state, Dispatch dispatch, ViewService viewService) {
-  return buildWidget(state, dispatch);
+  return buildWidget(state, dispatch, viewService);
 
 }
 
-Widget buildWidget(GuideState state, Dispatch dispatch) {
+Widget buildWidget(GuideState state, Dispatch dispatch, ViewService viewService) {
   GlobalKey<SliderMenuContainerState> _key =
   new GlobalKey<SliderMenuContainerState>();
-  String title;
-  APIProvider apiProvider = APIProvider();
 
-  return MaterialApp(
+  return CupertinoApp(
     debugShowCheckedModeBanner: false,
-    home: Scaffold(
-      body: SliderMenuContainer(
-          appBarColor: Colors.white,
-          key: _key,
-          sliderMenuOpenSize: 200,
-          title: Text(
-            "title",
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-          ),
-          sliderMenu: MenuWidget(
-            onItemClick: (title) async {
-              _key.currentState.closeDrawer();
-              // setState(() {
-              //   this.title = title;
-              // });
-              // dispatch(GuideActionCreator.onClick());
-              // Log.info('$a - Response  : ${a}');
+    home: Padding(
+      padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
+      child: Scaffold(
+        body: SliderMenuContainer(
+            appBarColor: Colors.white,
+            key: _key,
+            sliderMenuOpenSize: 200,
+            title: Text(
+              "title",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+            ),
+            sliderMenu: MenuWidget(
+              onItemClick: (title) async {
+                _key.currentState.closeDrawer();
+                // setState(() {
+                //   this.title = title;
+                // });
+                dispatch(GuideActionCreator.onClick());
 
-            },
-          ),
-          sliderMain: MainWidget()),
+              },
+            ),
+            // sliderMain: MainWidget(state, dispatch, viewService)),
+            sliderMain: _itemWidget(state, viewService)),
+      ),
     ),
   );
 }
-//
-// class MyMenuApp extends StatefulWidget {
-//   @override
-//   _MyMenuAppState createState() => _MyMenuAppState();
-// }
 
+Widget _itemWidget(GuideState state, ViewService viewService) {
+  if (state.items != null) {
+    ///使用列表
+    return ListView.builder(
+      itemBuilder: viewService.buildAdapter().itemBuilder,
+      itemCount: viewService.buildAdapter().itemCount,
+    );
+  } else {
+    return Center(
+      child: LinearProgressIndicator(),
+    );
+  }
+}
 
 class MainWidget extends StatefulWidget {
+
+  GuideState state;
+  Dispatch dispatch;
+  ViewService viewService;
+
+  MainWidget(GuideState state, Dispatch dispatch, ViewService viewService);
+
   @override
-  _MainWidgetState createState() => _MainWidgetState();
+  _MainWidgetState createState() {
+    return _MainWidgetState(state, viewService, dispatch);
+  }
+
+
 }
 
 class _MainWidgetState extends State<MainWidget> {
   List<Data> dataList = [];
+  RefreshController _refreshController =
+  RefreshController(initialRefresh: false);
+  APIProvider apiProvider = APIProvider();
+  GuideState state;
+  Dispatch dispatch;
+  ViewService viewService;
+
+  _MainWidgetState(GuideState state, ViewService viewService, Dispatch dispatch);
+
 
   @override
   void initState() {
     super.initState();
+
+    //mock
     dataList.add(Data(Colors.amber, 'Amelia Brown',
         'Life would be a great deal easier if dead things had the decency to remain dead.'));
-    dataList.add(Data(Colors.orange, 'Olivia Smith',
-        'That proves you are unusual," returned the Scarecrow'));
-    dataList.add(Data(Colors.deepOrange, 'Sophia Jones',
-        'Her name badge read: Hello! My name is DIE, DEMIGOD SCUM!'));
-    dataList.add(Data(Colors.red, 'Isabella Johnson',
-        'I am about as intimidating as a butterfly.'));
-    dataList.add(Data(Colors.purple, 'Emily Taylor',
-        'Never ask an elf for help; they might decide your better off dead, eh?'));
-    dataList.add(Data(Colors.green, 'Maya Thomas', 'Act first, explain later'));
+
+    // apiProvider.getSearchAdvice("good").then((value) {
+    //   var advice = value;
+    //   var list = advice.slips;
+    //   dataList.clear();
+    //
+    //   setState(() {
+    //     list.forEach((e) {
+    //       dataList.add(Data(Colors.green, e.advice, e.id.toString()));
+    //       print("$dataList");
+    //     });
+    //   });
+    // });
   }
 
+  void _onRefresh() async{
+    // monitor network fetch
+    await apiProvider.getSearchAdvice("c").then((value) {
+      var advice = value;
+      var list = advice.slips;
+      dataList.clear();
+
+      setState(() {
+        list.forEach((e) {
+          dataList.add(Data(Colors.green, e.advice, e.id.toString()));
+        });
+      });
+    });
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async{
+    // monitor network fetch
+    // await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    apiProvider.getSearchAdvice("d").then((value) {
+      var advice = value;
+      var list = advice.slips;
+      dataList.clear();
+
+      setState(() {
+        list.forEach((e) {
+          dataList.add(Data(Colors.green, e.advice, e.id.toString()));
+        });
+      });
+    });
+    // if(mounted)
+    //   setState(() {
+    //
+    //   });
+    _refreshController.loadComplete();
+  }
   @override
   Widget build(BuildContext context) {
-    APIProvider apiProvider = APIProvider();
-
-    return Container(
-      margin: const EdgeInsets.all(20),
-      child: ListView.separated(
-          scrollDirection: Axis.vertical,
-          //   physics: BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          itemBuilder: (builder, index) {
-            return GestureDetector(onTap: () {
-              log("mess11111age");
-              var a = apiProvider.getTopFreeApp();
-              print("$a");
-              // Log.info('$a - Response  : ${a}');
-              log("apiProvider ");
-
-            }, child: LimitedBox(
-              maxHeight: 150,
-
-              child: Container(
-                decoration: new BoxDecoration(
-                    color: dataList[index].color,
-                    borderRadius: new BorderRadius.all(
-                      const Radius.circular(10.0),
-                    )),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-
-                    Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Text(
-                        dataList[index].name,
-                        style: TextStyle(
-                            fontFamily: 'BalsamiqSans_Blod',
-                            fontSize: 30,
-                            color: Colors.white),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        dataList[index].detail,
-                        style: TextStyle(
-                            fontFamily: 'BalsamiqSans_Regular',
-                            fontSize: 15,
-                            color: Colors.white),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ));
-
-          },
-          separatorBuilder: (builder, index) {
-            return Divider(
-              height: 10,
-              thickness: 0,
+    return Scaffold(
+      body: SmartRefresher(
+        enablePullDown: true,
+        enablePullUp: true,
+        header: ClassicHeader(),
+        footer: CustomFooter(
+          builder: (BuildContext context,LoadStatus mode){
+            Widget body ;
+            if(mode==LoadStatus.idle){
+              body =  Text("pull up load");
+            }
+            else if(mode==LoadStatus.loading){
+              body =  CupertinoActivityIndicator();
+            }
+            else if(mode == LoadStatus.failed){
+              body = Text("Load Failed!Click retry!");
+            }
+            else if(mode == LoadStatus.canLoading){
+              body = Text("release to load more");
+            }
+            else{
+              body = Text("No more Data");
+            }
+            return Container(
+              height: 55.0,
+              child: Center(child:body),
             );
           },
-          itemCount: dataList.length),
+        ),
+        controller: _refreshController,
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+        child: ListView.builder(
+          // itemBuilder: (c, i) => Card(child: Center(child: Text(dataList[i].name))),
+          itemBuilder: viewService.buildAdapter().itemBuilder,
+          itemCount: viewService.buildAdapter().itemCount,
+        ),
+      ),
     );
+
   }
 }
 
@@ -176,7 +226,7 @@ class MenuWidget extends StatelessWidget {
             backgroundColor: Colors.grey,
             child: CircleAvatar(
               radius: 60,
-              backgroundImage: AssetImage('assets/images/user_profile.jpg'),
+              // backgroundImage: AssetImage('assets/images/user_profile.jpg'),
             ),
           ),
           SizedBox(
