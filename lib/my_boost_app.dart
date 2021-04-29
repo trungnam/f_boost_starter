@@ -14,14 +14,20 @@ import 'case/return_data.dart';
 import 'case/selection_screen.dart';
 import 'case/transparent_widget.dart';
 import 'case/willpop.dart';
+import 'core/MainFApplication.dart';
 
 class MyBoostApp extends StatefulWidget {
+
   @override
   _MyBoostAppState createState() => _MyBoostAppState();
 }
 
 class _MyBoostAppState extends State<MyBoostApp> {
-  static Map<String, FlutterBoostRouteFactory> routerMap = {
+
+
+  _MyBoostAppState();
+
+  Map<String, FlutterBoostRouteFactory> routerMap = {
     '/': (settings, uniqueId) {
       return PageRouteBuilder<dynamic>(
           settings: settings, pageBuilder: (_, __, ___) => Container());
@@ -148,7 +154,7 @@ class _MyBoostAppState extends State<MyBoostApp> {
     'createReduxApp': (settings, uniqueId) {
       return PageRouteBuilder<dynamic>(
           settings: settings,
-          pageBuilder: (_, __, ___) => createReduxApp());
+          pageBuilder: (application, __, ___) => createReduxApp());
     },
     // createReduxApp
 

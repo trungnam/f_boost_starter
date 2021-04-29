@@ -4,7 +4,6 @@ import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_boost_new/guide/guide_action.dart';
-import 'package:flutter_app_boost_new/model/APIProvider.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -29,7 +28,7 @@ Widget buildWidget(GuideState state, Dispatch dispatch, ViewService viewService)
             key: _key,
             sliderMenuOpenSize: 200,
             title: Text(
-              "title",
+              "Random advice",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
             ),
             sliderMenu: MenuWidget(
@@ -43,35 +42,90 @@ Widget buildWidget(GuideState state, Dispatch dispatch, ViewService viewService)
               },
             ),
             // sliderMain: MainWidget(state, dispatch, viewService)),
-            sliderMain: _itemWidget(state, viewService)),
+            sliderMain: MainWidget(state, viewService, dispatch)),
       ),
     ),
   );
 }
 
-Widget _itemWidget(GuideState state, ViewService viewService) {
+Widget _refeshlist(ViewService viewService, GuideState state, Dispatch dispatch) {
+  var _refreshController = RefreshController(initialRefresh: true);
+  final PageController _pageController = PageController();
+
+  void _onRefresh() async {
+    // monitor network fetch
+    GuideActionCreator.refreshList();
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async{
+    // monitor network fetch
+
+    // if(mounted)
+    //   setState(() {
+    //
+    //   });
+    _refreshController.loadComplete();
+  }
+
+  return SmartRefresher(
+    controller: _refreshController,
+    onRefresh: () async {
+      dispatch(GuideActionCreator.refreshList());
+
+      _refreshController.refreshCompleted();
+    },
+    onLoading: () async {
+
+      dispatch(GuideActionCreator.refreshList());
+
+      _refreshController.loadComplete();
+
+
+    },
+    enablePullDown: true,
+    enablePullUp: false,
+    physics: ClampingScrollPhysics(),
+    scrollController: null,
+    footer: ClassicFooter(
+      loadStyle: LoadStyle.ShowWhenLoading,
+    ),
+    header: ClassicHeader(),
+    child: _itemWidget(viewService, state),
+
+  );
+
+}
+
+Widget _itemWidget(ViewService viewService, GuideState state) {
   if (state.items != null) {
     ///使用列表
-    return ListView.builder(
-      itemBuilder: viewService.buildAdapter().itemBuilder,
-      itemCount: viewService.buildAdapter().itemCount,
+    return Expanded(
+      child: ListView.builder(
+        itemBuilder: viewService.buildAdapter().itemBuilder,
+        itemCount: viewService.buildAdapter().itemCount,
+
+      ),
+
     );
+    // return MainWidget(state, viewService);
   } else {
     return Center(
       child: LinearProgressIndicator(),
     );
   }
+
 }
 
 class MainWidget extends StatefulWidget {
 
-  GuideState state;
-  Dispatch dispatch;
-  ViewService viewService;
-
-  MainWidget(GuideState state, Dispatch dispatch, ViewService viewService);
+  final GuideState state;
+  final ViewService viewService;
+  final Dispatch dispatch;
+  MainWidget(this.state, this.viewService, this.dispatch);
 
   @override
+  // ignore: missing_return
   _MainWidgetState createState() {
     return _MainWidgetState(state, viewService, dispatch);
   }
@@ -80,75 +134,44 @@ class MainWidget extends StatefulWidget {
 }
 
 class _MainWidgetState extends State<MainWidget> {
-  List<Data> dataList = [];
+
+  List<String> items = ["1", "2", "3", "4", "5", "6", "7", "8"];
   RefreshController _refreshController =
   RefreshController(initialRefresh: false);
-  APIProvider apiProvider = APIProvider();
-  GuideState state;
-  Dispatch dispatch;
-  ViewService viewService;
 
-  _MainWidgetState(GuideState state, ViewService viewService, Dispatch dispatch);
+  final GuideState state;
+  final Dispatch dispatch;
+  final ViewService vService;
 
+  _MainWidgetState(this.state, this.vService, this.dispatch);
 
   @override
   void initState() {
     super.initState();
-
     //mock
-    dataList.add(Data(Colors.amber, 'Amelia Brown',
-        'Life would be a great deal easier if dead things had the decency to remain dead.'));
 
-    // apiProvider.getSearchAdvice("good").then((value) {
-    //   var advice = value;
-    //   var list = advice.slips;
-    //   dataList.clear();
-    //
-    //   setState(() {
-    //     list.forEach((e) {
-    //       dataList.add(Data(Colors.green, e.advice, e.id.toString()));
-    //       print("$dataList");
-    //     });
-    //   });
-    // });
   }
 
   void _onRefresh() async{
     // monitor network fetch
-    await apiProvider.getSearchAdvice("c").then((value) {
-      var advice = value;
-      var list = advice.slips;
-      dataList.clear();
+    // if failed,use refreshFailed()
+    // await Future.delayed(Duration(milliseconds: 1000));
 
-      setState(() {
-        list.forEach((e) {
-          dataList.add(Data(Colors.green, e.advice, e.id.toString()));
-        });
-      });
-    });
+    dispatch(GuideActionCreator.refreshList());
+
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }
 
   void _onLoading() async{
     // monitor network fetch
-    // await Future.delayed(Duration(milliseconds: 1000));
+    await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
-    apiProvider.getSearchAdvice("d").then((value) {
-      var advice = value;
-      var list = advice.slips;
-      dataList.clear();
-
+    items.add((items.length+1).toString());
+    if(mounted)
       setState(() {
-        list.forEach((e) {
-          dataList.add(Data(Colors.green, e.advice, e.id.toString()));
-        });
+
       });
-    });
-    // if(mounted)
-    //   setState(() {
-    //
-    //   });
     _refreshController.loadComplete();
   }
   @override
@@ -185,13 +208,25 @@ class _MainWidgetState extends State<MainWidget> {
         controller: _refreshController,
         onRefresh: _onRefresh,
         onLoading: _onLoading,
-        child: ListView.builder(
-          // itemBuilder: (c, i) => Card(child: Center(child: Text(dataList[i].name))),
-          itemBuilder: viewService.buildAdapter().itemBuilder,
-          itemCount: viewService.buildAdapter().itemCount,
-        ),
+        child: _itemWidget(),
       ),
     );
+
+  }
+
+  Widget _itemWidget() {
+    if (state.items != null && vService.buildAdapter() != null) {
+      ///使用列表
+      return ListView.builder(
+        itemBuilder:  vService.buildAdapter().itemBuilder,
+        itemCount: vService.buildAdapter().itemCount,
+      );
+      // return MainWidget(state, viewService);
+    } else {
+      return Center(
+        child: LinearProgressIndicator(),
+      );
+    }
 
   }
 }

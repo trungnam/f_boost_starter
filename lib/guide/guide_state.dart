@@ -1,7 +1,6 @@
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter_app_boost_new/gobal/global_state.dart';
 import 'package:flutter_app_boost_new/guide/guide_adapter.dart';
-import 'package:flutter_app_boost_new/guide/guide_view.dart';
 import 'package:flutter_app_boost_new/guide/items/item_guide_state.dart';
 
 class GuideState extends MutableSource implements Cloneable<GuideState>, GlobalBaseState {

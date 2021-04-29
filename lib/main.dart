@@ -8,19 +8,24 @@ import 'package:flutter_app_boost_new/guide/guide_page.dart';
 
 import 'package:flutter_app_boost_new/my_boost_app.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_app_boost_new/core/MainFApplication.dart';
 
-void main() {
+import 'utility/framework/Application.dart';
 
-  if (kIsWeb) {
-    // running on the web!
-    runApp(createReduxApp());
-
-  } else {
-    // NOT running on the web! You can check for additional platforms here.
-    runApp(MyBoostApp());
-
-  }
-}
+// void main() {
+//   //init application
+//   var app = MainDartApplication();
+//
+//   if (kIsWeb) {
+//     // running on the web!
+//     runApp(createReduxApp());
+//
+//   } else {
+//     // NOT running on the web! You can check for additional platforms here.
+//     runApp(MyBoostApp());
+//
+//   }
+// }
 
 
 

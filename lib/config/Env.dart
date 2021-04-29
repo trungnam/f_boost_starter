@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_boost_new/core/AppComponent.dart';
+import 'package:flutter_app_boost_new/core/MainFApplication.dart';
 
 enum EnvType {
   DEVELOPMENT,
@@ -33,8 +35,8 @@ class Env {
     //   Stetho.initialize();
     // }
 
-    // var application = AppStoreApplication();
-    // await application.onCreate();
-    // runApp(AppComponent(application));
+    var application = MainDartApplication();
+    await application.onCreate();
+    runApp(AppComponent(application));
   }
 }

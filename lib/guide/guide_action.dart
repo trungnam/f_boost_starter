@@ -5,7 +5,7 @@ enum GuideAction {
   action,
   click,
   updateItem,
-
+  refreshList
 }
 
 class GuideActionCreator {
@@ -20,4 +20,9 @@ class GuideActionCreator {
   static Action updateItem(var list) {
     return Action(GuideAction.updateItem, payload: list);
   }
+
+  static Action refreshList() {
+    return Action(GuideAction.refreshList);
+  }
+
 }
