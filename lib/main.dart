@@ -6,11 +6,7 @@ import 'package:flutter_app_boost_new/gobal/global_state.dart';
 import 'package:flutter_app_boost_new/gobal/global_store.dart';
 import 'package:flutter_app_boost_new/guide/guide_page.dart';
 
-import 'package:flutter_app_boost_new/my_boost_app.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter_app_boost_new/core/MainFApplication.dart';
-
-import 'utility/framework/Application.dart';
+import 'config/main_development.dart';
 
 // void main() {
 //   //init application
@@ -28,6 +24,7 @@ import 'utility/framework/Application.dart';
 // }
 
 
+void main() => Development();
 
 Widget createReduxApp() {
   return MaterialApp(

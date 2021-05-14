@@ -7,6 +7,7 @@ import 'package:flutter_app_boost_new/flutter_page.dart';
 import 'package:flutter_app_boost_new/main.dart';
 import 'package:flutter_app_boost_new/simple_page_widgets.dart';
 import 'package:flutter_app_boost_new/tab/simple_widget.dart';
+import 'package:flutter_boost/boost_navigator.dart';
 import 'package:flutter_boost/flutter_boost_app.dart';
 
 import 'case/flutter_to_flutter_sample.dart';
