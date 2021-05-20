@@ -1,12 +1,15 @@
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter_app_boost_new/model/response/AdviceResponse.dart';
 
-import '../guide_view.dart';
-
 class ItemGuideState implements Cloneable<ItemGuideState> {
   Slip itemDetail;
+  String itemId;
 
-  ItemGuideState({this.itemDetail});
+  static int _seed = 202103051044;
+
+  ItemGuideState({this.itemDetail, this.itemId}) {
+      this.itemId ??= "${_seed++}";
+  }
 
   @override
   ItemGuideState clone() {

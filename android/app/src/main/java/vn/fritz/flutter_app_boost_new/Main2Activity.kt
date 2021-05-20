@@ -40,33 +40,35 @@ class Main2Activity : AppCompatActivity() {
             .subscribe {
                 Log.e("$this", "btnFlutter RX clicks")
 
-                val intent = FlutterBoostActivity.CachedEngineIntentBuilder(
-                    FlutterBoostActivity::class.java,
-                    FlutterBoost.ENGINE_ID
-                )
+                    val intent = FlutterBoostActivity.CachedEngineIntentBuilder(
+                        FlutterBoostActivity::class.java,
+                        FlutterBoost.ENGINE_ID
+                    )
                     .backgroundMode(FlutterActivityLaunchConfigs.BackgroundMode.opaque)
                     .destroyEngineWithActivity(false)
 //                            .url("flutterPage")
                     .url("presentFlutterPage")
                     .urlParams(params)
                     .build(this@Main2Activity)
-                startActivity(intent)
+
+                    startActivity(intent)
             }
 
         btnGoToFRedux.clicks()
             .observeOn(AndroidSchedulers.mainThread())
             .throttleFirst(400, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
             .subscribe {
-                val intent = FlutterBoostActivity.CachedEngineIntentBuilder(
-                    FlutterBoostActivity::class.java,
-                    FlutterBoost.ENGINE_ID
-                )
+                    val intent = FlutterBoostActivity.CachedEngineIntentBuilder(
+                        FlutterBoostActivity::class.java,
+                        FlutterBoost.ENGINE_ID
+                    )
                     .backgroundMode(FlutterActivityLaunchConfigs.BackgroundMode.opaque)
-                    .destroyEngineWithActivity(false)
+                    .destroyEngineWithActivity(true)
                     .url("createReduxApp")
                     .urlParams(params)
                     .build(this@Main2Activity)
-                startActivity(intent)
+
+                    startActivity(intent)
             }
 
 
