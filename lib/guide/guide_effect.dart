@@ -25,7 +25,7 @@ void _onAction(Action action, Context<GuideState> ctx) {
 }
 
 void _toClick(Action action, Context<GuideState> ctx) {
-  Navigator.pushNamed(ctx.context, RouteConfig.countPage);
+  Navigator.pushNamed(ctx.context, RouteConfig.detailGuide);
 }
 
 void _init(Action action, Context<GuideState> ctx) async {

@@ -10,6 +10,5 @@ class ItemGuideActionCreator {
 
   static Action click(String itemId) {
     return const Action(ItemGuideAction.click);
-
   }
 }
