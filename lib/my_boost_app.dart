@@ -7,6 +7,7 @@ import 'package:flutter_app_boost_new/flutter_page.dart';
 import 'package:flutter_app_boost_new/main.dart';
 import 'package:flutter_app_boost_new/simple_page_widgets.dart';
 import 'package:flutter_app_boost_new/tab/simple_widget.dart';
+import 'package:flutter_boost/boost_navigator.dart';
 import 'package:flutter_boost/flutter_boost_app.dart';
 
 import 'case/flutter_to_flutter_sample.dart';
@@ -14,14 +15,20 @@ import 'case/return_data.dart';
 import 'case/selection_screen.dart';
 import 'case/transparent_widget.dart';
 import 'case/willpop.dart';
+import 'core/MainFApplication.dart';
 
 class MyBoostApp extends StatefulWidget {
+
   @override
   _MyBoostAppState createState() => _MyBoostAppState();
 }
 
 class _MyBoostAppState extends State<MyBoostApp> {
-  static Map<String, FlutterBoostRouteFactory> routerMap = {
+
+
+  _MyBoostAppState();
+
+  Map<String, FlutterBoostRouteFactory> routerMap = {
     '/': (settings, uniqueId) {
       return PageRouteBuilder<dynamic>(
           settings: settings, pageBuilder: (_, __, ___) => Container());
@@ -148,7 +155,7 @@ class _MyBoostAppState extends State<MyBoostApp> {
     'createReduxApp': (settings, uniqueId) {
       return PageRouteBuilder<dynamic>(
           settings: settings,
-          pageBuilder: (_, __, ___) => createReduxApp());
+          pageBuilder: (application, __, ___) => createReduxApp());
     },
     // createReduxApp
 

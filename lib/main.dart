@@ -5,24 +5,28 @@ import 'package:flutter_app_boost_new/Count/count_page.dart';
 import 'package:flutter_app_boost_new/gobal/global_state.dart';
 import 'package:flutter_app_boost_new/gobal/global_store.dart';
 import 'package:flutter_app_boost_new/guide/guide_page.dart';
+import 'package:flutter_app_boost_new/guide/items/detail/detail_guide_page.dart';
+import 'package:flutter_app_boost_new/simple_page_widgets.dart';
 
-import 'package:flutter_app_boost_new/my_boost_app.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'config/main_development.dart';
 
-void main() {
+// void main() {
+//   //init application
+//   var app = MainDartApplication();
+//
+//   if (kIsWeb) {
+//     // running on the web!
+//     runApp(createReduxApp());
+//
+//   } else {
+//     // NOT running on the web! You can check for additional platforms here.
+//     runApp(MyBoostApp());
+//
+//   }
+// }
 
-  if (kIsWeb) {
-    // running on the web!
-    runApp(createReduxApp());
 
-  } else {
-    // NOT running on the web! You can check for additional platforms here.
-    runApp(MyBoostApp());
-
-  }
-}
-
-
+void main() => Development();
 
 Widget createReduxApp() {
   return MaterialApp(
@@ -42,6 +46,7 @@ class RouteConfig {
   ///定义你的路由名称比如   static final String routeHome = 'page/home';
   ///导航页面
   static const String guidePage = 'page/guide';
+  static const String detailGuide = 'page/detail_guide';
 
   ///计数器页面
   static const String countPage = 'page/count';
@@ -62,7 +67,7 @@ class RouteConfig {
       ///将你的路由名称和页面映射在一起，比如：RouteConfig.homePage : HomePage(),
       RouteConfig.guidePage: GuidePage(),
       RouteConfig.countPage: CountPage(),
-      // RouteConfig.firstPage: FirstPage(),
+      RouteConfig.detailGuide: DetailGuidePage(),
       // RouteConfig.secondPage: SecondPage(),
       // RouteConfig.listPage: ListPage(),
       // RouteConfig.listEditPage: ListEditPage(),

@@ -1,7 +1,9 @@
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_boost_new/core/MainFApplication.dart';
 
 class GlobalState implements Cloneable<GlobalState>, GlobalBaseState {
+  final MainDartApplication application = MainDartApplication();
 
   @override
   GlobalState clone() {

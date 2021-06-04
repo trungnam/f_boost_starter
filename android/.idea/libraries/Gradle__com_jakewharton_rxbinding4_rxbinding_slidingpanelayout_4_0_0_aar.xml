@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.jakewharton.rxbinding4:rxbinding-slidingpanelayout:4.0.0@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/af0254a32e5944f4210de5a25f9e6b48/jetified-rxbinding-slidingpanelayout-4.0.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/af0254a32e5944f4210de5a25f9e6b48/jetified-rxbinding-slidingpanelayout-4.0.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/af0254a32e5944f4210de5a25f9e6b48/jetified-rxbinding-slidingpanelayout-4.0.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/96834034a7855d55fdb69c89035502db/jetified-rxbinding-slidingpanelayout-4.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/96834034a7855d55fdb69c89035502db/jetified-rxbinding-slidingpanelayout-4.0.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/96834034a7855d55fdb69c89035502db/jetified-rxbinding-slidingpanelayout-4.0.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jakewharton.rxbinding4/rxbinding-slidingpanelayout/4.0.0/1378784e84eb97706409dc99217712e025c38d6c/rxbinding-slidingpanelayout-4.0.0-javadoc.jar!/" />

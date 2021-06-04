@@ -3,8 +3,9 @@ import 'package:fish_redux/fish_redux.dart';
 //TODO replace with your own action
 enum GuideAction {
   action,
-  click
-
+  click,
+  updateItem,
+  refreshList
 }
 
 class GuideActionCreator {
@@ -15,4 +16,13 @@ class GuideActionCreator {
   static Action onClick() {
     return const Action(GuideAction.click);
   }
+
+  static Action updateItem(var list) {
+    return Action(GuideAction.updateItem, payload: list);
+  }
+
+  static Action refreshList() {
+    return Action(GuideAction.refreshList);
+  }
+
 }

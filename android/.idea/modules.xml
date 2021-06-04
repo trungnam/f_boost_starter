@@ -4,10 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/android.iml" filepath="$PROJECT_DIR$/.idea/modules/android.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-519419716/android.flutter_boost.iml" filepath="$PROJECT_DIR$/.idea/modules/-519419716/android.flutter_boost.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1213306418/android.flutter_plugin_android_lifecycle.iml" filepath="$PROJECT_DIR$/.idea/modules/1213306418/android.flutter_plugin_android_lifecycle.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1802039589/android.image_picker.iml" filepath="$PROJECT_DIR$/.idea/modules/-1802039589/android.image_picker.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/830632139/android.video_player.iml" filepath="$PROJECT_DIR$/.idea/modules/830632139/android.video_player.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1609041799/android.flutter_boost.iml" filepath="$PROJECT_DIR$/.idea/modules/-1609041799/android.flutter_boost.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2052627123/android.flutter_plugin_android_lifecycle.iml" filepath="$PROJECT_DIR$/.idea/modules/-2052627123/android.flutter_plugin_android_lifecycle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-632444809/android.image_picker.iml" filepath="$PROJECT_DIR$/.idea/modules/-632444809/android.image_picker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/844617190/android.video_player.iml" filepath="$PROJECT_DIR$/.idea/modules/844617190/android.video_player.iml" />
     </modules>
   </component>
 </project>
