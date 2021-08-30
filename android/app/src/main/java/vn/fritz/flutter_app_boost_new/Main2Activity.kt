@@ -63,7 +63,7 @@ class Main2Activity : AppCompatActivity() {
                         FlutterBoost.ENGINE_ID
                     )
                     .backgroundMode(FlutterActivityLaunchConfigs.BackgroundMode.opaque)
-                    .destroyEngineWithActivity(true)
+                    .destroyEngineWithActivity(false)
                     .url("createReduxApp")
                     .urlParams(params)
                     .build(this@Main2Activity)

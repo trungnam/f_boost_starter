@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_boost_new/case/image_pick.dart';
 import 'package:flutter_app_boost_new/case/media_query.dart';
 import 'package:flutter_app_boost_new/flutter_page.dart';
-import 'package:flutter_app_boost_new/main.dart';
+import 'package:flutter_app_boost_new/main_app.dart';
 import 'package:flutter_app_boost_new/simple_page_widgets.dart';
 import 'package:flutter_app_boost_new/tab/simple_widget.dart';
 import 'package:flutter_boost/boost_navigator.dart';
