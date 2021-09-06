@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_app_boost_new/core/MainFApplication.dart';
-import 'package:flutter_app_boost_new/main_app.dart';
+import 'package:flutter_app_boost_new/main.dart';
 import 'package:flutter_app_boost_new/my_boost_app.dart';
 import 'package:flutter_app_boost_new/utility/log/Log.dart';
 

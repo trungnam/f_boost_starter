@@ -8,7 +8,7 @@ import 'package:flutter_app_boost_new/guide/guide_view.dart';
 import 'package:flutter_app_boost_new/guide/items/item_guide_state.dart';
 import 'package:flutter_app_boost_new/model/APIProvider.dart';
 
-import '../main_app.dart';
+import '../main.dart';
 import 'guide_action.dart';
 import 'guide_state.dart';
 
