@@ -15,3 +15,14 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+flutter_boost:
+https://github.com/alibaba/flutter_boost
+
+fish-redux:
+https://hackernoon.com/unified-application-framework-for-larger-scale-apps-alibabas-fish-redux-moves-to-open-source-b520bd9bdbbb
+
+https://github.com/alibaba/fish-redux
+
+https://plugins.jetbrains.com/plugin/12139-fishreduxtemplate
