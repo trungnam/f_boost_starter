@@ -4,19 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_green_dark"
+    android:background="@android:color/white"
     tools:context=".Main2Activity">
 
     <LinearLayout
-        android:gravity="center"
+        android:layout_margin="12dp"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <Button
             android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Go To Flutter Page"
             android:id="@+id/btnGoToFlutter"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnGoToFRedux"
+            android:text="go to Redux "
             />
 
     </LinearLayout>

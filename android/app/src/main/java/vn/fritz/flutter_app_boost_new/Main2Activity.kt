@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit
 class Main2Activity : AppCompatActivity() {
 
     private val btnGoToFlutter: Button by lazy { findViewById<Button>(R.id.btnGoToFlutter) }
+    private val btnGoToFRedux: Button by lazy { findViewById<Button>(R.id.btnGoToFRedux) }
 
     var sRef: WeakReference<Main2Activity>? = null
 
@@ -34,22 +35,41 @@ class Main2Activity : AppCompatActivity() {
         }
 
         btnGoToFlutter.clicks()
-                .observeOn(AndroidSchedulers.mainThread())
-//                .debounce(200, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
-                .throttleFirst(400,TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .throttleFirst(400, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
+            .subscribe {
+                Log.e("$this", "btnFlutter RX clicks")
 
-                .subscribe {
-                    Log.e("$this", "btnFlutter RX clicks")
+                    val intent = FlutterBoostActivity.CachedEngineIntentBuilder(
+                        FlutterBoostActivity::class.java,
+                        FlutterBoost.ENGINE_ID
+                    )
+                    .backgroundMode(FlutterActivityLaunchConfigs.BackgroundMode.opaque)
+                    .destroyEngineWithActivity(false)
+//                            .url("flutterPage")
+                    .url("presentFlutterPage")
+                    .urlParams(params)
+                    .build(this@Main2Activity)
 
-                    val intent = FlutterBoostActivity.CachedEngineIntentBuilder(FlutterBoostActivity::class.java, FlutterBoost.ENGINE_ID)
-                            .backgroundMode(FlutterActivityLaunchConfigs.BackgroundMode.opaque)
-                            .destroyEngineWithActivity(false)
-                            .url("flutterPage")
-                            .urlParams(params)
-                            .build(this@Main2Activity)
                     startActivity(intent)
-                }
+            }
 
+        btnGoToFRedux.clicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .throttleFirst(400, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
+            .subscribe {
+                    val intent = FlutterBoostActivity.CachedEngineIntentBuilder(
+                        FlutterBoostActivity::class.java,
+                        FlutterBoost.ENGINE_ID
+                    )
+                    .backgroundMode(FlutterActivityLaunchConfigs.BackgroundMode.opaque)
+                    .destroyEngineWithActivity(false)
+                    .url("createReduxApp")
+                    .urlParams(params)
+                    .build(this@Main2Activity)
+
+                    startActivity(intent)
+            }
 
 
     }

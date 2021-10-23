@@ -40,7 +40,7 @@
 
 - (IBAction)present:(id)sender {
     
-    [[FlutterBoost instance] open:@"secondStateful" arguments:@{@"present":@(YES)}];
+    [[FlutterBoost instance] open:@"createReduxApp" arguments:@{@"present":@(YES)}];
 
 //    [FlutterBoostPlugin open:@"second" urlParams:@{@"present":@(YES),kPageCallBackId:@"MycallbackId#2"} exts:@{@"animated":@(YES)} onPageFinished:^(NSDictionary *result) {
 //        NSLog(@"call me when page finished, and your result is:%@", result);

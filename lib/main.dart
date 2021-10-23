@@ -1,198 +1,119 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_boost/flutter_boost_app.dart';
-import 'package:flutter_app_boost_new/case/flutter_to_flutter_sample.dart';
-import 'package:flutter_app_boost_new/case/image_pick.dart';
-import 'package:flutter_app_boost_new/case/media_query.dart';
-import 'package:flutter_app_boost_new/case/return_data.dart';
-import 'package:flutter_app_boost_new/case/selection_screen.dart';
-import 'package:flutter_app_boost_new/case/transparent_widget.dart';
-import 'package:flutter_app_boost_new/case/willpop.dart';
-import 'package:flutter_app_boost_new/flutter_page.dart';
+import 'package:fish_redux/fish_redux.dart';
+import 'package:flutter/material.dart' hide Page;
+import 'package:flutter/cupertino.dart' hide Page;
+import 'package:flutter_app_boost_new/Count/count_page.dart';
+import 'package:flutter_app_boost_new/gobal/global_state.dart';
+import 'package:flutter_app_boost_new/gobal/global_store.dart';
+import 'package:flutter_app_boost_new/guide/guide_page.dart';
+import 'package:flutter_app_boost_new/guide/items/detail/detail_guide_page.dart';
 import 'package:flutter_app_boost_new/simple_page_widgets.dart';
-import 'package:flutter_app_boost_new/tab/simple_widget.dart';
 
-void main() {
-  runApp(MyApp());
+import 'config/main_development.dart';
+
+// void main() {
+//   //init application
+//   var app = MainDartApplication();
+//
+//   if (kIsWeb) {
+//     // running on the web!
+//     runApp(createReduxApp());
+//
+//   } else {
+//     // NOT running on the web! You can check for additional platforms here.
+//     runApp(MyBoostApp());
+//
+//   }
+// }
+
+
+void main() => Development();
+
+Widget createReduxApp() {
+  return MaterialApp(
+    title: 'FishRedux',
+    home: RouteConfig.routes.buildPage(RouteConfig.guidePage, null), //作为默认页面
+    onGenerateRoute: (RouteSettings settings) {
+      //ios页面切换风格
+      return CupertinoPageRoute(builder: (BuildContext context) {
+        return RouteConfig.routes.buildPage(settings.name, settings.arguments);
+      });
+    },
+  );
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
+///路由管理
+class RouteConfig {
+  ///定义你的路由名称比如   static final String routeHome = 'page/home';
+  ///导航页面
+  static const String guidePage = 'page/guide';
+  static const String detailGuide = 'page/detail_guide';
+
+  ///计数器页面
+  static const String countPage = 'page/count';
+
+  ///页面传值跳转模块演示
+  static const String firstPage = 'page/first';
+  static const String secondPage = 'page/second';
+
+  ///列表模块演示
+  static const String listPage = 'page/list';
+  static const String listEditPage = 'page/listEdit';
+
+  ///Component
+  static const String componentPage = 'page/component';
+
+  static final AbstractRoutes routes = PageRoutes(
+    pages: <String, Page<Object, dynamic>>{
+      ///将你的路由名称和页面映射在一起，比如：RouteConfig.homePage : HomePage(),
+      RouteConfig.guidePage: GuidePage(),
+      RouteConfig.countPage: CountPage(),
+      RouteConfig.detailGuide: DetailGuidePage(),
+      // RouteConfig.secondPage: SecondPage(),
+      // RouteConfig.listPage: ListPage(),
+      // RouteConfig.listEditPage: ListEditPage(),
+      // RouteConfig.componentPage: CompPage(),
+    },
+    visitor: StoreConfig.visitor,
+  );
 }
 
-class _MyAppState extends State<MyApp> {
-  static Map<String, FlutterBoostRouteFactory> routerMap = {
-    '/': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings, pageBuilder: (_, __, ___) => Container());
-    },
-    'embedded': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings,
-          pageBuilder: (_, __, ___) => EmbeddedFirstRouteWidget());
-    },
-    'presentFlutterPage': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings,
-          pageBuilder: (_, __, ___) => FlutterRouteWidget(
-                params: settings.arguments,
-                uniqueId: uniqueId,
-              ));
-    },
-    'imagepick': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings,
-          pageBuilder: (_, __, ___) =>
-              ImagePickerPage(title: "imagepick", uniqueId: uniqueId));
-    },
-    'firstFirst': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings,
-          pageBuilder: (_, __, ___) => FirstFirstRouteWidget());
-    },
-    'willPop': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings, pageBuilder: (_, __, ___) => WillPopRoute());
-    },
-    'returnData': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings, pageBuilder: (_, __, ___) => ReturnDataWidget());
-    },
-    'transparentWidget': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings, pageBuilder: (_, __, ___) => TransparentWidget());
-    },
-    'selectionScreen': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings, pageBuilder: (_, __, ___) => SelectionScreen());
-    },
-    'secondStateful': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings,
-          pageBuilder: (_, __, ___) => SecondStatefulRouteWidget());
-    },
-    'platformView': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings,
-          pageBuilder: (_, __, ___) => PlatformRouteWidget());
-    },
+///全局模式
+class StoreConfig {
+  ///全局状态管理
+  static _updateState() {
+    return (Object pageState, GlobalState appState) {
+      final GlobalBaseState p = pageState;
 
-    ///可以在native层通过 getContainerParams 来传递参数
-    'flutterPage': (settings, uniqueId) {
-      print('flutterPage settings:$settings, uniqueId:$uniqueId');
-      return PageRouteBuilder<dynamic>(
-        settings: settings,
-        pageBuilder: (_, __, ___) => FlutterRouteWidget(
-          params: settings.arguments,
-          uniqueId: uniqueId,
-        ),
-        // transitionsBuilder: (BuildContext context, Animation<double> animation,
-        //     Animation<double> secondaryAnimation, Widget child) {
-        //   return SlideTransition(
-        //     position: Tween<Offset>(
-        //       begin: const Offset(1.0, 0),
-        //       end: Offset.zero,
-        //     ).animate(animation),
-        //     child: SlideTransition(
-        //       position: Tween<Offset>(
-        //         begin: Offset.zero,
-        //         end: const Offset(-1.0, 0),
-        //       ).animate(secondaryAnimation),
-        //       child: child,
-        //     ),
-        //   );
-        // },
-      );
-    },
-    'tab_friend': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings,
-          pageBuilder: (_, __, ___) => SimpleWidget(
-              uniqueId, settings.arguments, "This is a flutter fragment"));
-    },
-    'tab_message': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings,
-          pageBuilder: (_, __, ___) => SimpleWidget(
-              uniqueId, settings.arguments, "This is a flutter fragment"));
-    },
-    'tab_flutter1': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings,
-          pageBuilder: (_, __, ___) => SimpleWidget(
-              uniqueId, settings.arguments, "This is a custom FlutterView"));
-    },
-    'tab_flutter2': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings,
-          pageBuilder: (_, __, ___) => SimpleWidget(
-              uniqueId, settings.arguments, "This is a custom FlutterView"));
-    },
+      if (pageState is Cloneable) {
+        final Object copy = pageState.clone();
+        final GlobalBaseState newState = copy;
 
-    'f2f_first': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings, pageBuilder: (_, __, ___) => F2FFirstPage());
-    },
-    'f2f_second': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings, pageBuilder: (_, __, ___) => F2FSecondPage());
-    },
-    'mediaquery': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings,
-          pageBuilder: (_, __, ___) => MediaQueryRouteWidget(
-                params: settings.arguments,
-                uniqueId: uniqueId,
-              ));
-    },
-  };
+        if (p.store == null) {
+          ///这地方的判断是必须的，判断第一次store对象是否为空
+          newState.store = appState.store;
+        } else {
+          /// 这地方增加字段判断，是否需要更新
+          if ((p.store.themeColor != appState.store.themeColor)) {
+            newState.store.themeColor = appState.store.themeColor;
+          }
 
-  Route<dynamic> routeFactory(RouteSettings settings, String uniqueId) {
-    FlutterBoostRouteFactory func = routerMap[settings.name];
-    if (func == null) {
-      return null;
+          /// 下列一系列对比...
+
+        }
+
+        /// 返回新的 state 并将数据设置到 ui
+        return newState;
+      }
+      return pageState;
+    };
+  }
+
+  static visitor(String path, Page<Object, dynamic> page) {
+    if (page.isTypeof<GlobalBaseState>()) {
+      ///建立AppStore驱动PageStore的单向数据连接
+      ///参数1 AppStore  参数2 当AppStore.state变化时,PageStore.state该如何变化
+      page.connectExtraStore<GlobalState>(GlobalStore.store, _updateState());
     }
-    return func(settings, uniqueId);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FlutterBoostApp(routeFactory);
-  }
-
-  static Widget appBuilder(Widget home) {
-    return MaterialApp(
-      home: home,
-    );
-  }
-
-  void _onRoutePushed(
-      String pageName, String uniqueId, Map params, Route route, Future _) {}
-}
-
-class BoostNavigatorObserver extends NavigatorObserver {
-  @override
-  void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
-    print('boost-didPush' + route.settings.name);
-  }
-
-  @override
-  void didPop(Route<dynamic> route, Route<dynamic> previousRoute) {
-    print('boost-didPop' + route.settings.name);
-  }
-
-  @override
-  void didRemove(Route<dynamic> route, Route<dynamic> previousRoute) {
-    print('boost-didRemove' + route.settings.name);
-  }
-
-  @override
-  void didStartUserGesture(Route<dynamic> route, Route<dynamic> previousRoute) {
-    print('boost-didStartUserGesture' + route.settings.name);
   }
 }
+
