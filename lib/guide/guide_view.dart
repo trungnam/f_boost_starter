@@ -34,56 +34,12 @@ Widget buildWidget(
               dispatch(GuideActionCreator.onClick());
             },
           ),
-        ),
+        )
       ),
     ),
   );
 }
 
-Widget _refeshlist(
-    ViewService viewService, GuideState state, Dispatch dispatch) {
-  var _refreshController = RefreshController(initialRefresh: true);
-  final PageController _pageController = PageController();
-
-  void _onRefresh() async {
-    // monitor network fetch
-    GuideActionCreator.refreshList();
-    _refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    // monitor network fetch
-
-    // if(mounted)
-    //   setState(() {
-    //
-    //   });
-    _refreshController.loadComplete();
-  }
-
-  return SmartRefresher(
-    controller: _refreshController,
-    onRefresh: () async {
-      dispatch(GuideActionCreator.refreshList());
-
-      _refreshController.refreshCompleted();
-    },
-    onLoading: () async {
-      dispatch(GuideActionCreator.refreshList());
-
-      _refreshController.loadComplete();
-    },
-    enablePullDown: true,
-    enablePullUp: false,
-    physics: ClampingScrollPhysics(),
-    scrollController: null,
-    footer: ClassicFooter(
-      loadStyle: LoadStyle.ShowWhenLoading,
-    ),
-    header: ClassicHeader(),
-    child: _itemWidget(viewService, state),
-  );
-}
 
 Widget _itemWidget(ViewService viewService, GuideState state) {
   if (state.items != null) {
@@ -116,7 +72,6 @@ class MainWidget extends StatefulWidget {
 }
 
 class _MainWidgetState extends State<MainWidget> {
-  List<String> items = ["1", "2", "3", "4", "5", "6", "7", "8"];
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -147,7 +102,6 @@ class _MainWidgetState extends State<MainWidget> {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
-    items.add((items.length + 1).toString());
     if (mounted) setState(() {});
     _refreshController.loadComplete();
   }
@@ -179,9 +133,11 @@ class _MainWidgetState extends State<MainWidget> {
             );
           },
         ),
+        enableTwoLevel: true,
         controller: _refreshController,
         onRefresh: _onRefresh,
         onLoading: _onLoading,
+        //list item
         child: _itemWidget(),
       ),
     );
