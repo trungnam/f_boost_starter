@@ -1,54 +1,47 @@
-
-
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_boost_new/guide/guide_action.dart';
-import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
+import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'guide_state.dart';
 
 Widget buildView(GuideState state, Dispatch dispatch, ViewService viewService) {
   return buildWidget(state, dispatch, viewService);
-
 }
 
-Widget buildWidget(GuideState state, Dispatch dispatch, ViewService viewService) {
-  GlobalKey<SliderMenuContainerState> _key =
-  new GlobalKey<SliderMenuContainerState>();
+Widget buildWidget(
+    GuideState state, Dispatch dispatch, ViewService viewService) {
+  // GlobalKey<SliderMenuContainerState> _key =
+  // new GlobalKey<SliderMenuContainerState>();
+  GlobalKey<SliderDrawerState> _key = GlobalKey<SliderDrawerState>();
 
   return CupertinoApp(
     debugShowCheckedModeBanner: false,
     home: Padding(
       padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
       child: Scaffold(
-        body: SliderMenuContainer(
-            appBarColor: Colors.white,
-            key: _key,
-            sliderMenuOpenSize: 200,
-            title: Text(
-              "Random advice",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-            ),
-            sliderMenu: MenuWidget(
-              onItemClick: (title) async {
-                _key.currentState.closeDrawer();
-                // setState(() {
-                //   this.title = title;
-                // });
-                dispatch(GuideActionCreator.onClick());
-
-              },
-            ),
-            // sliderMain: MainWidget(state, dispatch, viewService)),
-            sliderMain: MainWidget(state, viewService, dispatch)),
+        body: SliderDrawer(
+          key: _key,
+          sliderOpenSize: 200,
+          child: MainWidget(state, viewService, dispatch),
+          slider: MenuWidget(
+            onItemClick: (title) async {
+              _key.currentState.closeSlider();
+              // setState(() {
+              //   this.title = title;
+              // });
+              dispatch(GuideActionCreator.onClick());
+            },
+          ),
+        ),
       ),
     ),
   );
 }
 
-Widget _refeshlist(ViewService viewService, GuideState state, Dispatch dispatch) {
+Widget _refeshlist(
+    ViewService viewService, GuideState state, Dispatch dispatch) {
   var _refreshController = RefreshController(initialRefresh: true);
   final PageController _pageController = PageController();
 
@@ -58,7 +51,7 @@ Widget _refeshlist(ViewService viewService, GuideState state, Dispatch dispatch)
     _refreshController.refreshCompleted();
   }
 
-  void _onLoading() async{
+  void _onLoading() async {
     // monitor network fetch
 
     // if(mounted)
@@ -76,12 +69,9 @@ Widget _refeshlist(ViewService viewService, GuideState state, Dispatch dispatch)
       _refreshController.refreshCompleted();
     },
     onLoading: () async {
-
       dispatch(GuideActionCreator.refreshList());
 
       _refreshController.loadComplete();
-
-
     },
     enablePullDown: true,
     enablePullUp: false,
@@ -92,9 +82,7 @@ Widget _refeshlist(ViewService viewService, GuideState state, Dispatch dispatch)
     ),
     header: ClassicHeader(),
     child: _itemWidget(viewService, state),
-
   );
-
 }
 
 Widget _itemWidget(ViewService viewService, GuideState state) {
@@ -104,9 +92,7 @@ Widget _itemWidget(ViewService viewService, GuideState state) {
       child: ListView.builder(
         itemBuilder: viewService.buildAdapter().itemBuilder,
         itemCount: viewService.buildAdapter().itemCount,
-
       ),
-
     );
     // return MainWidget(state, viewService);
   } else {
@@ -114,11 +100,9 @@ Widget _itemWidget(ViewService viewService, GuideState state) {
       child: LinearProgressIndicator(),
     );
   }
-
 }
 
 class MainWidget extends StatefulWidget {
-
   final GuideState state;
   final ViewService viewService;
   final Dispatch dispatch;
@@ -129,15 +113,12 @@ class MainWidget extends StatefulWidget {
   _MainWidgetState createState() {
     return _MainWidgetState(state, viewService, dispatch);
   }
-
-
 }
 
 class _MainWidgetState extends State<MainWidget> {
-
   List<String> items = ["1", "2", "3", "4", "5", "6", "7", "8"];
   RefreshController _refreshController =
-  RefreshController(initialRefresh: false);
+      RefreshController(initialRefresh: false);
 
   final GuideState state;
   final Dispatch dispatch;
@@ -149,10 +130,9 @@ class _MainWidgetState extends State<MainWidget> {
   void initState() {
     super.initState();
     //mock
-
   }
 
-  void _onRefresh() async{
+  void _onRefresh() async {
     // monitor network fetch
     // if failed,use refreshFailed()
     // await Future.delayed(Duration(milliseconds: 1000));
@@ -163,17 +143,15 @@ class _MainWidgetState extends State<MainWidget> {
     _refreshController.refreshCompleted();
   }
 
-  void _onLoading() async{
+  void _onLoading() async {
     // monitor network fetch
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
-    items.add((items.length+1).toString());
-    if(mounted)
-      setState(() {
-
-      });
+    items.add((items.length + 1).toString());
+    if (mounted) setState(() {});
     _refreshController.loadComplete();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -182,26 +160,22 @@ class _MainWidgetState extends State<MainWidget> {
         enablePullUp: true,
         header: ClassicHeader(),
         footer: CustomFooter(
-          builder: (BuildContext context,LoadStatus mode){
-            Widget body ;
-            if(mode==LoadStatus.idle){
-              body =  Text("pull up load");
-            }
-            else if(mode==LoadStatus.loading){
-              body =  CupertinoActivityIndicator();
-            }
-            else if(mode == LoadStatus.failed){
+          builder: (BuildContext context, LoadStatus mode) {
+            Widget body;
+            if (mode == LoadStatus.idle) {
+              body = Text("pull up load");
+            } else if (mode == LoadStatus.loading) {
+              body = CupertinoActivityIndicator();
+            } else if (mode == LoadStatus.failed) {
               body = Text("Load Failed!Click retry!");
-            }
-            else if(mode == LoadStatus.canLoading){
+            } else if (mode == LoadStatus.canLoading) {
               body = Text("release to load more");
-            }
-            else{
+            } else {
               body = Text("No more Data");
             }
             return Container(
               height: 55.0,
-              child: Center(child:body),
+              child: Center(child: body),
             );
           },
         ),
@@ -211,14 +185,13 @@ class _MainWidgetState extends State<MainWidget> {
         child: _itemWidget(),
       ),
     );
-
   }
 
   Widget _itemWidget() {
     if (state.items != null && vService.buildAdapter() != null) {
       ///使用列表
       return ListView.builder(
-        itemBuilder:  vService.buildAdapter().itemBuilder,
+        itemBuilder: vService.buildAdapter().itemBuilder,
         itemCount: vService.buildAdapter().itemCount,
       );
       // return MainWidget(state, viewService);
@@ -227,7 +200,6 @@ class _MainWidgetState extends State<MainWidget> {
         child: LinearProgressIndicator(),
       );
     }
-
   }
 }
 
@@ -238,7 +210,6 @@ class Data {
 
   Data(this.color, this.name, this.detail);
 }
-
 
 class MenuWidget extends StatelessWidget {
   final Function(String) onItemClick;
@@ -293,7 +264,7 @@ class MenuWidget extends StatelessWidget {
       title: Text(
         title,
         style:
-        TextStyle(color: Colors.black, fontFamily: 'BalsamiqSans_Regular'),
+            TextStyle(color: Colors.black, fontFamily: 'BalsamiqSans_Regular'),
       ),
       leading: Icon(
         icons,
