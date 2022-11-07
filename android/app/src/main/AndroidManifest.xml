@@ -7,7 +7,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="flutter_app_boost_new"
         android:theme="@style/Theme.AppCompat">
-        <activity android:name=".NativePageActivity"></activity>
+        <activity android:name=".NativePageActivity" />
         <activity android:name=".Main2Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
