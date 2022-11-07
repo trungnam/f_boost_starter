@@ -1,9 +1,11 @@
 import 'package:fish_redux/fish_redux.dart';
+import 'package:flutter_app_boost_new/guide/guide_view.dart';
 
 //TODO replace with your own action
 enum GuideAction {
   action,
   click,
+  menuClick,
   updateItem,
   refreshList
 }
@@ -25,4 +27,7 @@ class GuideActionCreator {
     return Action(GuideAction.refreshList);
   }
 
+  static Action menuClick(MenuItemType item) {
+    return Action(GuideAction.menuClick, payload: item);
+  }
 }

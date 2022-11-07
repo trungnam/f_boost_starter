@@ -26,12 +26,12 @@ Widget buildWidget(
           sliderOpenSize: 200,
           child: MainWidget(state, viewService, dispatch),
           slider: MenuWidget(
-            onItemClick: (title) async {
+            onItemClick: (title, item) async {
               _key.currentState.closeSlider();
               // setState(() {
               //   this.title = title;
               // });
-              dispatch(GuideActionCreator.onClick());
+              dispatch(GuideActionCreator.menuClick(item));
             },
           ),
         )
@@ -167,8 +167,13 @@ class Data {
   Data(this.color, this.name, this.detail);
 }
 
+enum MenuItemType {
+    LogOut,
+    Home
+}
+
 class MenuWidget extends StatelessWidget {
-  final Function(String) onItemClick;
+  final Function(String, MenuItemType) onItemClick;
 
   const MenuWidget({Key key, this.onItemClick}) : super(key: key);
 
@@ -205,18 +210,18 @@ class MenuWidget extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          sliderItem('Home', Icons.home),
-          sliderItem('Add Post', Icons.add_circle),
-          sliderItem('Notification', Icons.notifications_active),
-          sliderItem('Likes', Icons.favorite),
-          sliderItem('Setting', Icons.settings),
-          sliderItem('LogOut', Icons.arrow_back_ios)
+          sliderItem('Home', Icons.home, MenuItemType.Home),
+          sliderItem('Add Post', Icons.add_circle, MenuItemType.Home),
+          sliderItem('Notification', Icons.notifications_active, MenuItemType.Home),
+          sliderItem('Likes', Icons.favorite, MenuItemType.Home),
+          sliderItem('Setting', Icons.settings, MenuItemType.Home),
+          sliderItem('LogOut', Icons.arrow_back_ios, MenuItemType.LogOut)
         ],
       ),
     );
   }
 
-  Widget sliderItem(String title, IconData icons) => ListTile(
+  Widget sliderItem(String title, IconData icons, MenuItemType itemType) => ListTile(
       title: Text(
         title,
         style:
@@ -227,6 +232,6 @@ class MenuWidget extends StatelessWidget {
         color: Colors.black,
       ),
       onTap: () {
-        onItemClick(title);
+        onItemClick(title, itemType);
       });
 }
