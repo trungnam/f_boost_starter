@@ -190,7 +190,7 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
       appBar: AppBar(
         brightness:Brightness.light,
         backgroundColor: Colors.white,
-        textTheme:new TextTheme(title: TextStyle(color: Colors.black)) ,
+        textTheme:new TextTheme(subtitle1: TextStyle(color: Colors.black)) ,
         leading: Builder(builder: (BuildContext context) {
           return IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -334,13 +334,13 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
               ],
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: const Text('CANCEL'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
-              FlatButton(
+              TextButton(
                   child: const Text('PICK'),
                   onPressed: () {
                     double width = maxWidthController.text.isNotEmpty

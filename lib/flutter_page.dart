@@ -79,7 +79,7 @@ class _FlutterRouteWidgetState extends State<FlutterRouteWidget>
       appBar: AppBar(
         brightness: Brightness.dark,
         backgroundColor: Colors.black,
-        textTheme: new TextTheme(title: TextStyle(color: Colors.black)),
+        textTheme: new TextTheme(subtitle1: TextStyle(color: Colors.black)),
         leading: Builder(builder: (BuildContext context) {
           return IconButton(
             icon: const Icon(Icons.arrow_back),

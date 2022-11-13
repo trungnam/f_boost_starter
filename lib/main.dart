@@ -6,7 +6,6 @@ import 'package:flutter_app_boost_new/gobal/global_state.dart';
 import 'package:flutter_app_boost_new/gobal/global_store.dart';
 import 'package:flutter_app_boost_new/guide/guide_page.dart';
 import 'package:flutter_app_boost_new/guide/items/detail/detail_guide_page.dart';
-import 'package:flutter_app_boost_new/simple_page_widgets.dart';
 
 import 'config/main_development.dart';
 

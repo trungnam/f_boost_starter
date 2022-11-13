@@ -22,8 +22,8 @@ class ReturnDataWidget extends StatelessWidget {
   _navigateAndDisplaySelection(BuildContext context) async {
     final result =
         await BoostNavigator.of().push('selectionScreen', withContainer: true);
-    Scaffold.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text("$result")));
+    Scaffold.of(context);
+      // .removeCurrentSnackBar()
+      // .showSnackBar(SnackBar(content: Text("$result")));
   }
 }
